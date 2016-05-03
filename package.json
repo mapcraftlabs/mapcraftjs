@@ -1,0 +1,30 @@
+{
+  "name": "planning-tools",
+  "version": "1.0.0",
+  "description": "Web components and modules for city planning apps (React + Leaflet)",
+  "main": "main.js",
+  "scripts": {
+    "test": "mocha './tests/*.test.js' --compilers js:babel-core/register",
+    "lint": "eslint . --ext .js --ext .jsx"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mapcraftlabs/planning-tools.git"
+  },
+  "keywords": [
+    "React",
+    "Leaflet",
+    "Maps",
+    "Planning"
+  ],
+  "author": "Fletcher Foti (MapCraft)",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/mapcraftlabs/planning-tools/issues"
+  },
+  "homepage": "https://github.com/mapcraftlabs/planning-tools#readme",
+  "devDependencies": {
+    "expect": "^1.19.0",
+    "mocha": "^2.4.5"
+  }
+}
