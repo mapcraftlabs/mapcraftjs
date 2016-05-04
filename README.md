@@ -22,6 +22,8 @@ to get a Leaflet theme JSON object suitable for calling [layer.getStyle(style)](
 
 to get the actual scaled value if you don't want a style object.
 
+*** Linear theming ***
+ 
 All the challenge is in the config object for the theme.  Here is a simple example that maps the min/max values in the `data` array to a linear scale between two colors (using d3).  `opacity` sets the opacity of the shapes, `weight` is the thickness of the outside borders of the shapes, and `outlineColor` is the color of the border.
 
 ```javascript
@@ -30,5 +32,31 @@ All the challenge is in the config object for the theme.  Here is a simple examp
     weight: 0,
     outlineColor: '#000000',
     interpolate: ['#fff5eb', '#7f2704']
+}
+```
+
+You can use `interpolate: [500, 5000]` instead of using colors if you want the outcome to be integers instead of colors.  This can be used, e.g. to determine the radius of circles in the map.  *The resulting style objects will not work in Leaflet - just use `getScaledVal`*.
+
+NaN values and undefined values will be themed as transparent.
+
+*** Categorical theming ***
+
+Categorical theming can be used instead of the interpolate attribute by using the categorical theming instead.  In this case, values can be non-numeric, and are mapped to colors by the configuration.  A full spec might look like this.
+
+```javascript
+{
+    opacity: .9,
+    weight: 0,
+    outlineColor: '#000000',
+    categorical: {
+        'Office': '#ff9999',
+        'Hotel': '#ff9933',
+        'Retail': '#FF0000',
+        'Residential': '#FFFF00',
+        'Industrial': '#A020F0',
+        'School': '#0000FF',
+        'Vacant': '#FFFFFF',
+        'Parking': '#666666'
+    }
 }
 ```
