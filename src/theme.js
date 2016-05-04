@@ -15,23 +15,10 @@ export class Theme {
         var e = d3.extent(vals);
         var min = e[0], max = e[1];
 
-        // set up simple linear scale
-
-        if(tc.interpolateColors) {
-
-            scale = d3.scale
-                .linear()
-                .domain(e)
-                .interpolate(d3.interpolateRgb)
-                .range(tc.interpolate);
-
-        } else {
-
-            scale = d3.scale
-                .linear()
-                .domain(e)
-                .range(tc.interpolate);
-        }
+        scale = d3.scale
+            .linear()
+            .domain(e)
+            .range(tc.interpolate);
 
         // build some intervals in the interpolation range for
         // use in the legend
@@ -42,6 +29,24 @@ export class Theme {
             dontFormatLegend: tc.dontFormatLegend,
             grades: legendDomain,
             colors: legendDomain.map(a => scale(a)),
+            heading: tc.legendName
+        };
+
+        return scale;
+    }
+
+    _categorical (tc, vals) {
+
+        var scale = function (v) {
+            return tc.categorical[v];
+        }
+
+        var keys = tc.legendKeys || _.keys(tc.categorical);
+
+        this.legendParams = {
+            dontFormatLegend: tc.dontFormatLegend,
+            grades: keys,
+            colors: keys.map(k => tc.categorical[k]),
             heading: tc.legendName
         };
 
@@ -64,22 +69,11 @@ export class Theme {
 
         } else if (tc.categorical) {
 
-            scale = function (v) {
-                return tc.categorical[v];
-            }
-
-            var keys = tc.legendKeys || _.keys(tc.categorical);
-
-            this.legendParams = {
-                dontFormatLegend: tc.dontFormatLegend,
-                grades: keys,
-                colors: keys.map(k => tc.categorical[k]),
-                heading: tc.legendName
-            };
+            scale = this._categorical(themeConfig, vals);
 
         } else {
 
-            console.log('Theme type not supported');
+            throw Error('Theme type not supported');
         }
 
         this.theme = tc;
