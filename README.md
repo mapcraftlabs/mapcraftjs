@@ -22,7 +22,7 @@ to get a Leaflet theme JSON object suitable for calling [layer.getStyle(style)](
 
 to get the actual scaled value if you don't want a style object.
 
-*** Linear theming ***
+#### Linear theming
  
 All the challenge is in the config object for the theme.  Here is a simple example that maps the min/max values in the `data` array to a linear scale between two colors (using d3).  `opacity` sets the opacity of the shapes, `weight` is the thickness of the outside borders of the shapes, and `outlineColor` is the color of the border.
 
@@ -39,7 +39,7 @@ You can use `interpolate: [500, 5000]` instead of using colors if you want the o
 
 NaN values and undefined values will be themed as transparent.
 
-*** Categorical theming ***
+#### Categorical theming
 
 Categorical theming can be used instead of the interpolate attribute by using the categorical theming instead.  In this case, values can be non-numeric, and are mapped to colors by the configuration.  A full spec might look like this.
 
