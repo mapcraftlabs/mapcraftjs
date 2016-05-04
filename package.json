@@ -12,7 +12,7 @@
     "watch:test": "npm t -- --watch",
     "test": "mocha ./tests/*.test.js --compilers js:babel-register",
     "watch:build": "watch 'npm run build' src",
-    "cover": "nyc --reporter=lcov npm t"
+    "cover": "nyc npm t"
   },
   "repository": {
     "type": "git",
