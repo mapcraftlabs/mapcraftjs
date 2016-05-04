@@ -12,17 +12,17 @@ The API is pretty simple.  Just run
 
 `var theme = new Theme(config, data);`
 
-to create the theme and then
+to create the theme (where config is a javascript object and data is a vector of values) and then
 
-`var style = theme.getStyle([val]);`
+`var style = theme.getStyle(val);`
 
 to get a Leaflet theme JSON object suitable for calling [layer.getStyle(style)](http://leafletjs.com/reference.html#path-setstyle).  You can also call
 
-`var scaledVal = theme.getScaledVal([val]);`
+`var scaledVal = theme.getScaledVal(val);`
 
 to get the actual scaled value if you don't want a style object.
 
-All the challenge is in the config object for the theme.  Here is a simple example that maps the min/max values in the `data` array on to a linear scale between two colors (using d3).  `opacity` sets the opacity of the shapes, `weight` is the thickness of the outside borders of the shapes, and `outlineColor` is the color of the border.
+All the challenge is in the config object for the theme.  Here is a simple example that maps the min/max values in the `data` array to a linear scale between two colors (using d3).  `opacity` sets the opacity of the shapes, `weight` is the thickness of the outside borders of the shapes, and `outlineColor` is the color of the border.
 
 ```javascript
 {
