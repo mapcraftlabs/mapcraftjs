@@ -4,13 +4,13 @@
   "description": "Web components and modules for city planning apps (React + Leaflet)",
   "main": "dist/index.js",
   "scripts": {
-    "lint": "eslint . --ext .js --ext .jsx",
+    "lint": "eslint src tests --ext .js --ext .jsx",
     "prebuild": "rm -rf dist",
     "build": "babel --out-dir dist src",
     "check-coverage": "nyc check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
     "report-coverage": "cat ./coverage/lcov.info | codecov",
     "watch:test": "npm t -- --watch",
-    "test": "mocha ./tests/*.test.js --compilers js:babel-register",
+    "test": "npm run lint && mocha ./tests/*.test.js --compilers js:babel-register",
     "watch:build": "watch 'npm run build' src",
     "cover": "nyc npm t"
   },

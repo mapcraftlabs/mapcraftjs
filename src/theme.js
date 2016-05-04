@@ -35,7 +35,7 @@ export class Theme {
         return scale;
     }
 
-    _categorical (tc, vals) {
+    _categorical (tc) {
 
         var scale = function (v) {
             return tc.categorical[v];
@@ -69,7 +69,7 @@ export class Theme {
 
         } else if (tc.categorical) {
 
-            scale = this._categorical(themeConfig, vals);
+            scale = this._categorical(themeConfig);
 
         } else {
 
