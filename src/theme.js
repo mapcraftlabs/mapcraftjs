@@ -41,10 +41,6 @@ export class Theme {
         // force to float
         vals = vals.map((v) => +v);
 
-        // get min and max
-        var e = d3.extent(vals);
-        var min = e[0], max = e[1];
-
         var colors = colorbrewer[tc.colorScheme][tc.numBins];
 
         scale = d3.scale
