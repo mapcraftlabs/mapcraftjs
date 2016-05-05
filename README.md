@@ -24,7 +24,9 @@ to get the actual scaled value if you don't want a style object.
 
 #### Linear theming
  
-All the challenge is in the config object for the theme.  Here is a simple example that maps the min/max values in the `data` array to a linear scale between two colors (using d3).  `opacity` sets the opacity of the shapes, `weight` is the thickness of the outside borders of the shapes, and `outlineColor` is the color of the border.
+All the challenge is in the config object for the theme.  Here is a simple example that maps the min/max values in the `data` array to a linear scale between two colors (using d3). 
+
+`opacity` sets the opacity of the shapes, `weight` is the thickness of the outside borders of the shapes, and `outlineColor` is the color of the border.  These other attributes can be added to all themes, although they are often omitted on this page for brevity.
 
 ```javascript
 {
@@ -56,9 +58,6 @@ Categorical theming can be used instead of the interpolate attribute by using th
 
 ```javascript
 {
-    opacity: .9,
-    weight: 0,
-    outlineColor: '#000000',
     scaleType: 'categorical',
     categories: {
         'Office': '#ff9999',
@@ -79,9 +78,6 @@ Quantile themed maps map each quantile of the input array to a color scheme from
 
 ```javascript
 {
-    opacity: .9,
-    weight: 0,
-    outlineColor: '#000000',
     scaleType: 'quantile',
     colorScheme: 'YlGn',
     numBins: 7
