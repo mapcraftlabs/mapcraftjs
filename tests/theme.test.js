@@ -44,6 +44,8 @@ describe('theme module', () => {
             grades: [ 0, 9.8, 19.6, 29.400000000000002, 39.2, 49 ],
             colors: [ '#fff5eb', '#e5ccbd', '#cca38f', '#b27960', '#995032', '#7f2704' ] 
         });
+
+        expect(theme.getLegendParams().heading).to.equal(config.legendName);
     });
 
 
@@ -59,6 +61,26 @@ describe('theme module', () => {
         expect(theme.getStyle(8).fillColor).to.equal('#d9f0a3');
         expect(theme.getStyle(25).fillColor).to.equal('#78c679');
         expect(theme.getStyle(49).fillColor).to.equal('#005a32');
+
+        expect(theme.legendParams).to.deep.equal({
+            grades: [
+                '0-7',
+                '7-14',
+                '14-21',
+                '21-28',
+                '28-35',
+                '35-42',
+                '42-49'
+            ], colors: [
+                '#ffffcc',
+                '#d9f0a3',
+                '#addd8e',
+                '#78c679',
+                '#41ab5d',
+                '#238443',
+                '#005a32'
+            ] 
+        });
     });
 
 

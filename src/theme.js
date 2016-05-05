@@ -52,16 +52,14 @@ export class Theme {
             .domain(vals)
             .range(colors);
 
-        // XXX do legend for quantile scale
-        /*var legendDomain = _.range(min, max, (max-min)/5.0);
-        legendDomain.push(max); // push the max too
+        var grades = scale.range().map(grade => 
+            scale.invertExtent(grade).join('-')
+        );
 
         this.legendParams  = {
-            dontFormatLegend: tc.dontFormatLegend,
-            grades: legendDomain,
-            colors: legendDomain.map(a => scale(a)),
-            heading: tc.legendName
-        };*/
+            grades: grades,
+            colors: colors
+        };
 
         return scale;
     }
@@ -115,8 +113,8 @@ export class Theme {
 
     getLegendParams () {
         return _.extend({}, this.legendParams, {
-            heading: this.tc.legendName,
-            dontFormatLegend: tc.dontFormatLegend
+            heading: this.theme.legendName,
+            dontFormatLegend: this.theme.dontFormatLegend
         });
     }
 
