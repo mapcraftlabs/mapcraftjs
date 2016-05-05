@@ -1,10 +1,11 @@
 import d3 from 'd3';
 import _ from 'underscore';
+import colorbrewer from 'colorbrewer';
 
 
 export class Theme {
 
-    _interpolate (tc, vals) {
+    _linear (tc, vals) {
 
         var scale;
 
@@ -26,11 +27,41 @@ export class Theme {
         legendDomain.push(max); // push the max too
 
         this.legendParams  = {
+            grades: legendDomain,
+            colors: legendDomain.map(a => scale(a))
+        };
+
+        return scale;
+    }
+
+    _quantile (tc, vals) {
+
+        var scale;
+
+        // force to float
+        vals = vals.map((v) => +v);
+
+        // get min and max
+        var e = d3.extent(vals);
+        var min = e[0], max = e[1];
+
+        var colors = colorbrewer[tc.colorScheme][tc.numBins];
+
+        scale = d3.scale
+            .quantile()
+            .domain(vals)
+            .range(colors);
+
+        // XXX do legend for quantile scale
+        /*var legendDomain = _.range(min, max, (max-min)/5.0);
+        legendDomain.push(max); // push the max too
+
+        this.legendParams  = {
             dontFormatLegend: tc.dontFormatLegend,
             grades: legendDomain,
             colors: legendDomain.map(a => scale(a)),
             heading: tc.legendName
-        };
+        };*/
 
         return scale;
     }
@@ -38,16 +69,14 @@ export class Theme {
     _categorical (tc) {
 
         var scale = function (v) {
-            return tc.categorical[v];
+            return tc.categories[v];
         }
 
-        var keys = tc.legendKeys || _.keys(tc.categorical);
+        var keys = tc.legendKeys || _.keys(tc.categories);
 
         this.legendParams = {
-            dontFormatLegend: tc.dontFormatLegend,
             grades: keys,
-            colors: keys.map(k => tc.categorical[k]),
-            heading: tc.legendName
+            colors: keys.map(k => tc.categories[k])
         };
 
         return scale;
@@ -63,11 +92,15 @@ export class Theme {
 
         var scale;
 
-        if(tc.interpolate) { // interpolate between two colors
+        if(tc.scaleType == 'linear') {
 
-            scale = this._interpolate(themeConfig, vals);
+            scale = this._linear(themeConfig, vals);
 
-        } else if (tc.categorical) {
+        } else if(tc.scaleType == 'quantile') {
+
+            scale = this._quantile(themeConfig, vals);
+
+        } else if (tc.scaleType == 'categorical') {
 
             scale = this._categorical(themeConfig);
 
@@ -78,6 +111,13 @@ export class Theme {
 
         this.theme = tc;
         this.scale = scale;
+    }
+
+    getLegendParams () {
+        return _.extend({}, this.legendParams, {
+            heading: this.tc.legendName,
+            dontFormatLegend: tc.dontFormatLegend
+        });
     }
 
     // for use e.g. with setting radius on a circle
