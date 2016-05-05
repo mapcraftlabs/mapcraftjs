@@ -25,6 +25,27 @@ describe('theme module', () => {
         }), data)).to.throw(Error);
     });
 
+    it('should work with manual breaks', () => {
+
+        var theme = new Theme(_.extend({}, config, {
+            scaleType: 'manual',
+            breaks: [4, 8, 20, 40],
+            colorScheme: 'YlGn'
+        }), data);
+
+        // bottom of the interpolation
+        expect(theme.getStyle(0).fillColor).to.equal('#ffffcc');
+        // assumes using d3 linear
+        expect(theme.getStyle(25).fillColor).to.equal('#31a354');
+        // top of the interpolation
+        expect(theme.getStyle(49).fillColor).to.equal('#006837');
+
+        expect(theme.legendParams).to.deep.equal({
+            grades: [ '-4', '4-8', '8-20', '20-40', '40-' ],
+            colors: [ '#ffffcc', '#c2e699', '#78c679', '#31a354', '#006837' ]
+        });
+    });
+
 
     it('should do a linear theme with 2 colors', () => {
 

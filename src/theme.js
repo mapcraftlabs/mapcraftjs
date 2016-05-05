@@ -7,8 +7,6 @@ export class Theme {
 
     _linear (tc, vals) {
 
-        var scale;
-
         // force to float
         vals = vals.map((v) => +v);
 
@@ -23,7 +21,7 @@ export class Theme {
         // preparing for 3-way interpolation
         e = tc.middleValue != undefined ? [e[0], tc.middleValue, e[1]] : e;
 
-        scale = d3.scale
+        var scale = d3.scale
             .linear()
             .domain(e)
             .range(tc.interpolate);
@@ -41,16 +39,38 @@ export class Theme {
         return scale;
     }
 
-    _quantile (tc, vals) {
+    _manual (tc) {
 
-        var scale;
+        var breaks = tc.breaks,
+            numBins = breaks.length + 1;
+
+        var colors = colorbrewer[tc.colorScheme][numBins];
+
+        var scale = d3.scale
+            .threshold()
+            .domain(breaks)
+            .range(colors);
+
+        var grades = scale.range().map(grade => 
+            scale.invertExtent(grade).join('-')
+        );
+
+        this.legendParams  = {
+            grades: grades,
+            colors: colors
+        };
+
+        return scale;
+    }
+
+    _quantile (tc, vals) {
 
         // force to float
         vals = vals.map((v) => +v);
 
         var colors = colorbrewer[tc.colorScheme][tc.numBins];
 
-        scale = d3.scale
+        var scale = d3.scale
             .quantile()
             .domain(vals)
             .range(colors);
@@ -96,6 +116,10 @@ export class Theme {
         if(tc.scaleType == 'linear') {
 
             scale = this._linear(themeConfig, vals);
+
+        } else if(tc.scaleType == 'manual') {
+
+            scale = this._manual(themeConfig);
 
         } else if(tc.scaleType == 'quantile') {
 
