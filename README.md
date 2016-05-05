@@ -52,6 +52,18 @@ You can also do a 3-way interpolation, for instance so that the number zero is a
 }
 ```
 
+#### Manual breaks
+
+Manual breaks allows the user to specify the breakpoints.  In this case you don't have to pass `data` into the theme as the user has full control of the theme.  The color scheme is again from color brewer and the number of bins (colors) will be one greater than the number of breaks.  Note that most colorbrewer color schemes have versions for about 3 to 9 colors, so the number of breaks should generally be between 2 and 8 (whatever colorbrewer has specified for a given color scheme should work).
+
+```javascript
+{
+    scaleType: 'manual',
+    breaks: [4, 8, 20, 40],
+    colorScheme: 'YlGn'
+}
+```
+
 #### Categorical theming
 
 Categorical theming can be used instead of the interpolate attribute by using the categorical theming instead.  In this case, values can be non-numeric, and are mapped to colors by the configuration.  A full spec might look like this.
