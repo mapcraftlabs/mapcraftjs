@@ -31,6 +31,7 @@ All the challenge is in the config object for the theme.  Here is a simple examp
     opacity: .9,
     weight: 0,
     outlineColor: '#000000',
+    scaleType: 'linear',
     interpolate: ['#fff5eb', '#7f2704']
 }
 ```
@@ -58,7 +59,8 @@ Categorical theming can be used instead of the interpolate attribute by using th
     opacity: .9,
     weight: 0,
     outlineColor: '#000000',
-    categorical: {
+    scaleType: 'categorical',
+    categories: {
         'Office': '#ff9999',
         'Hotel': '#ff9933',
         'Retail': '#FF0000',
@@ -68,5 +70,20 @@ Categorical theming can be used instead of the interpolate attribute by using th
         'Vacant': '#FFFFFF',
         'Parking': '#666666'
     }
+}
+```
+
+#### Quantile theming
+
+Quantile themed maps map each quantile of the input array to a color scheme from [colorbrewer](http://colorbrewer2.org/).  You need to specify both the name of the color scheme (`colorScheme`) and the number of bins (`numBins`) to use.  For quantile theming, the number of bins is equal to the number of quantiles that will be given separate colors.
+
+```javascript
+{
+    opacity: .9,
+    weight: 0,
+    outlineColor: '#000000',
+    scaleType: 'quantile',
+    colorScheme: 'YlGn',
+    numBins: 7
 }
 ```
