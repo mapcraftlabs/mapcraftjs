@@ -16,6 +16,13 @@ export class Theme {
         var e = d3.extent(vals);
         var min = e[0], max = e[1];
 
+        if((tc.middleValue != undefined && tc.interpolate.length == 2) ||
+           (tc.interpolate.length == 3 && tc.middleValue == undefined))
+                throw Error('For 3-way interpolation, must include middle value attributes to add between min and max.');
+
+        // preparing for 3-way interpolation
+        e = tc.middleValue != undefined ? [e[0], tc.middleValue, e[1]] : e;
+
         scale = d3.scale
             .linear()
             .domain(e)

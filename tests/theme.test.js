@@ -48,6 +48,25 @@ describe('theme module', () => {
         expect(theme.getLegendParams().heading).to.equal(config.legendName);
     });
 
+    it('should do a linear theme with 3 colors', () => {
+
+        // d3 supports an uneven interpolation - e.g. money where
+        // zero is significant
+
+        var theme = new Theme(_.extend({}, config, {
+            scaleType: 'linear',
+            middleValue: 0,
+            interpolate: ['#fff5eb', '#ffffff', '#7f2704']
+        }), [-5000, 0, 50]);
+
+        // bottom of the interpolation
+        expect(theme.getStyle(-5000).fillColor).to.equal('#fff5eb');
+        // assumes using d3 linear
+        expect(theme.getStyle(0).fillColor).to.equal('#ffffff');
+        // top of the interpolation
+        expect(theme.getStyle(50).fillColor).to.equal('#7f2704');
+    });
+
 
     it('should do a quantile theme with 7 colors', () => {
 

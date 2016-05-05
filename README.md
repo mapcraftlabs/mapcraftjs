@@ -39,6 +39,16 @@ You can use `interpolate: [500, 5000]` instead of using colors if you want the o
 
 NaN values and undefined values will be themed as transparent.
 
+You can also do a 3-way interpolation, for instance so that the number zero is always set to a certain color, with the middleValue attribute.
+
+```javascript
+{
+    scaleType: 'linear',
+    middleValue: 0,
+    interpolate: ['#fff5eb', '#ffffff', '#7f2704']
+}
+```
+
 #### Categorical theming
 
 Categorical theming can be used instead of the interpolate attribute by using the categorical theming instead.  In this case, values can be non-numeric, and are mapped to colors by the configuration.  A full spec might look like this.
