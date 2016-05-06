@@ -57,7 +57,6 @@ You can also do a linear (continuous) interpolation with a color scheme, which u
 ```javascript
 {
     scaleType: 'linear',
-    middleValue: 0,
     colorScheme: 'YlGn'
 }
 ```
