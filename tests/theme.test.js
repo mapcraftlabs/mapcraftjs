@@ -23,6 +23,12 @@ describe('theme module', () => {
         expect(() => new Theme(_.extend({}, config, {
             scaleType: undefined
         }), data)).to.throw(Error);
+
+        expect(() => new Theme(_.extend({}, config, {
+            scaleType: 'linear',
+            middleValue: 0,
+            interpolate: ['#fff5eb', '#ffffff']
+        }), data)).to.throw(Error);
     });
 
 
