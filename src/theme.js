@@ -1,6 +1,7 @@
 import d3 from 'd3';
 import _ from 'underscore';
 import colorbrewer from 'colorbrewer';
+import ss from 'simple-statistics';
 
 
 export class Theme {
@@ -48,6 +49,8 @@ export class Theme {
         var breaks = tc.breaks,
             numBins = breaks.length + 1;
 
+        numBins = Math.max(3, Math.min(numBins, 9));
+
         var colors = colorbrewer[tc.colorScheme][numBins];
 
         var scale = d3.scale
@@ -65,6 +68,21 @@ export class Theme {
         };
 
         return scale;
+    }
+
+    _jenks (tc, vals) {
+
+        // force to float
+        vals = vals.map((v) => +v);
+
+        var breaks = ss.ckmeans(vals, tc.numBins);
+
+        breaks = breaks.map((vals) => vals[0]).splice(1);
+
+        return this._manual(_.extend({}, tc, {
+            breaks: breaks,
+            numBins: breaks.length + 1
+        }), vals);
     }
 
     _quantile (tc, vals) {
@@ -132,6 +150,10 @@ export class Theme {
         } else if (tc.scaleType == 'categorical') {
 
             scale = this._categorical(themeConfig);
+
+        } else if (tc.scaleType == 'jenks') {
+
+            scale = this._jenks(themeConfig, vals);
 
         } else {
 

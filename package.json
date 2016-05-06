@@ -54,6 +54,7 @@
   "dependencies": {
     "colorbrewer": "^1.0.0",
     "d3": "^3.5.16",
+    "simple-statistics": "^1.0.1",
     "underscore": "^1.8.3"
   },
   "config": {

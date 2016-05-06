@@ -220,6 +220,33 @@ describe('theme module', () => {
     });
 
 
+    it('should do a jenks theme with 5 colors', () => {
+
+        var theme = new Theme(_.extend({}, config, {
+            scaleType: 'jenks',
+            numBins: 5,
+            colorScheme: 'YlGn'
+        }), data);
+
+        // bottom of the interpolation
+        expect(theme.getStyle(0).fillColor).to.equal('#ffffcc');
+        // assumes using d3 linear
+        expect(theme.getStyle(25).fillColor).to.equal('#78c679');
+        // top of the interpolation
+        expect(theme.getStyle(49).fillColor).to.equal('#006837');
+    });
+
+
+    it('jenks with repeated data should run', () => {
+
+        new Theme(_.extend({}, config, {
+            scaleType: 'jenks',
+            numBins: 5,
+            colorScheme: 'YlGn'
+        }), [0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    });
+
+
     it('should be transparent for nan values', () => {
 
         const categories = {

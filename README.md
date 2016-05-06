@@ -104,3 +104,15 @@ Quantile themed maps map each quantile of the input array to a color scheme from
     numBins: 7
 }
 ```
+
+#### Jenks
+
+For natural clustering you can use jenks. This actually uses the simple-statistics method ckmeans, but I figure most people looking for it will look for jenks.
+
+```javascript
+{
+    scaleType: 'jenks',
+    numBins: 5,
+    colorScheme: 'YlGn'
+}
+```
