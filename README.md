@@ -1,4 +1,4 @@
-# planning-tools
+# mapcraftjs
 A set of Javascript libraries useful in writing planning tools
 
 [![travis build](https://img.shields.io/travis/mapcraftlabs/planning-tools.svg?style=flat-square)](https://travis-ci.org/mapcraftlabs/planning-tools)
