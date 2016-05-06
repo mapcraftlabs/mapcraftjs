@@ -25,6 +25,7 @@ describe('theme module', () => {
         }), data)).to.throw(Error);
     });
 
+
     it('should work with manual breaks', () => {
 
         var theme = new Theme(_.extend({}, config, {
@@ -44,6 +45,22 @@ describe('theme module', () => {
             grades: [ '-4', '4-8', '8-20', '20-40', '40-' ],
             colors: [ '#ffffcc', '#c2e699', '#78c679', '#31a354', '#006837' ]
         });
+    });
+
+
+    it('should do a linear theme with color scheme', () => {
+
+        var theme = new Theme(_.extend({}, config, {
+            scaleType: 'linear',
+            colorScheme: 'YlGn'
+        }), data);
+
+        // bottom of the interpolation
+        expect(theme.getStyle(0).fillColor).to.equal('#f7fcb9');
+        // assumes using d3 linear
+        expect(theme.getStyle(25).fillColor).to.equal('#92cf85');
+        // top of the interpolation
+        expect(theme.getStyle(49).fillColor).to.equal('#31a354');
     });
 
 
@@ -68,6 +85,7 @@ describe('theme module', () => {
 
         expect(theme.getLegendParams().heading).to.equal(config.legendName);
     });
+
 
     it('should do a linear theme with 3 colors', () => {
 
