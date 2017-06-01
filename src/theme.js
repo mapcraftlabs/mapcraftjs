@@ -112,7 +112,7 @@ export class Theme {
     _categorical (tc) {
 
         var scale = function (v) {
-            return tc.categories[v];
+            return _.get(tc.categories, v, tc.defaultColor);
         }
 
         var keys = tc.legendKeys || _.keys(tc.categories);

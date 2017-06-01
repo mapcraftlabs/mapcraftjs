@@ -177,6 +177,8 @@ describe('theme module', () => {
 
     it('should work for categorical theming', () => {
 
+        const defaultColor = '#ABCDEF';
+
         const categories = {
             'Office': '#ff9999',
             'Hotel': '#ff9933',
@@ -190,11 +192,13 @@ describe('theme module', () => {
 
         var theme = new Theme(_.extend({}, config, {
             categories: categories,
-            scaleType: 'categorical'
+            scaleType: 'categorical',
+            defaultColor
         }), data);
 
         expect(theme.getStyle('Office').fillColor).to.equal('#ff9999');
         expect(theme.getStyle('School').fillColor).to.equal('#0000FF');
+        expect(theme.getStyle('Doesnt exist').fillColor).to.equal(defaultColor);
 
         expect(theme.legendParams).to.deep.equal({
             grades: [

@@ -74,11 +74,12 @@ Manual breaks allows the user to specify the breakpoints.  In this case you don'
 
 #### Categorical theming
 
-Categorical theming can be used instead of the interpolate attribute by using the categorical theming instead.  In this case, values can be non-numeric, and are mapped to colors by the configuration.  A full spec might look like this.
+Categorical theming can be used instead of the interpolate attribute by using the categorical theming instead.  In this case, values can be non-numeric, and are mapped to colors by the configuration.  A defaultColor attribute can be added and will be applied to any values which don't exist in the theme.  A full spec might look like this.
 
 ```javascript
 {
     scaleType: 'categorical',
+    defaultColor: '#ABCDEF',
     categories: {
         'Office': '#ff9999',
         'Hotel': '#ff9933',
