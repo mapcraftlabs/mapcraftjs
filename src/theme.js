@@ -1,5 +1,5 @@
 import d3 from 'd3';
-import _ from 'underscore';
+import _ from 'lodash';
 import colorbrewer from 'colorbrewer';
 import ss from 'simple-statistics';
 
@@ -125,6 +125,23 @@ export class Theme {
         return scale;
     }
 
+    _autocategorical (tc, vals) {
+
+        var keys = _.uniq(vals);
+
+        var scale = d3
+            .scale
+            .category20()
+            .domain(keys);
+
+        this.legendParams = {
+            grades: keys,
+            colors: keys.map(k => scale(k))
+        };
+
+        return scale;
+    }
+
     // create theme object from a javascript config onject
     // and a vector of data - the return object is useful to
     // pass to getStyle below
@@ -150,6 +167,11 @@ export class Theme {
         } else if (tc.scaleType == 'categorical') {
 
             scale = this._categorical(themeConfig);
+
+        } else if (tc.scaleType == 'autocategorical') {
+
+            scale = this._autocategorical(themeConfig, vals);
+
 
         } else if (tc.scaleType == 'jenks') {
 

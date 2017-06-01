@@ -1,6 +1,6 @@
 import chai from 'chai';
 import chaiStats from 'chai-stats';
-import _ from 'underscore';
+import _ from 'lodash';
 import {Theme} from '../src/index.js'
 chai.use(chaiStats);
 
@@ -215,6 +215,31 @@ describe('theme module', () => {
                 '#0000FF',
                 '#FFFFFF',
                 '#666666'
+            ]
+        });
+    });
+
+
+    it('should work for auto-categorical theming', () => {
+
+        const values = ['dog', 'dog', 'cat', 'antelope', 'cat'];
+
+        var theme = new Theme(_.extend({}, config, {
+            scaleType: 'autocategorical'
+        }), values);
+
+        expect(theme.getStyle('dog').fillColor).to.equal('#1f77b4');
+        expect(theme.getStyle('cat').fillColor).to.equal('#aec7e8');
+
+        expect(theme.legendParams).to.deep.equal({
+            grades: [
+                'dog',
+                'cat',
+                'antelope'
+            ], colors: [
+                '#1f77b4',
+                '#aec7e8',
+                '#ff7f0e'
             ]
         });
     });
