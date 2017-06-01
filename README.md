@@ -92,6 +92,16 @@ Categorical theming can be used instead of the interpolate attribute by using th
 }
 ```
 
+#### Auto-categorical theming
+
+Similar to categorical theming, but maps unique values to the random d3 color scheme (d3.category20).  This is an easy way to map all possible values that actually occur in the data to discrete color.
+
+```javascript
+{
+    scaleType: 'autocategorical'
+}
+```
+
 #### Quantile theming
 
 Quantile themed maps map each quantile of the input array to a color scheme from [colorbrewer](http://colorbrewer2.org/).  You need to specify both the name of the color scheme (`colorScheme`) and the number of bins (`numBins`) to use.  For quantile theming, the number of bins is equal to the number of quantiles that will be given separate colors.
