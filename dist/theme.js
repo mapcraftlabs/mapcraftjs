@@ -1,182 +1,206 @@
-import d3 from 'd3';
-import _ from 'lodash';
-import colorbrewer from 'colorbrewer';
-import ss from 'simple-statistics';
+'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Theme = undefined;
 
-export class Theme {
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-    _linear (tc, vals) {
+var _d = require('d3');
 
-        // force to float
-        vals = vals.map((v) => +v);
+var _d2 = _interopRequireDefault(_d);
 
-        // get min and max
-        var e = d3.extent(vals);
-        var min = e[0], max = e[1];
+var _lodash = require('lodash');
 
-        var colors = tc.interpolate || 
-            [colorbrewer[tc.colorScheme][3][0],
-             colorbrewer[tc.colorScheme][3][2]];
+var _lodash2 = _interopRequireDefault(_lodash);
 
-        if((tc.middleValue != undefined && colors.length == 2) ||
-           (colors.length == 3 && tc.middleValue == undefined))
-                throw Error('For 3-way interpolation, must include middle value attributes to add between min and max.');
+var _colorbrewer = require('colorbrewer');
 
-        // preparing for 3-way interpolation
-        e = tc.middleValue != undefined ? [e[0], tc.middleValue, e[1]] : e;
+var _colorbrewer2 = _interopRequireDefault(_colorbrewer);
 
-        var scale = d3.scale
-            .linear()
-            .domain(e)
-            .range(colors);
+var _simpleStatistics = require('simple-statistics');
 
-        // build some intervals in the interpolation range for
-        // use in the legend
-        var legendDomain = _.range(min, max, (max-min)/5.0);
-        legendDomain.push(max); // push the max too
+var _simpleStatistics2 = _interopRequireDefault(_simpleStatistics);
 
-        this.legendParams  = {
-            grades: legendDomain,
-            colors: legendDomain.map(a => scale(a))
-        };
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-        return scale;
-    }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-    _manual (tc) {
+var Theme = exports.Theme = function () {
+    _createClass(Theme, [{
+        key: '_linear',
+        value: function _linear(tc, vals) {
 
-        var breaks = tc.breaks,
-            numBins = breaks.length + 1;
+            // force to float
+            vals = vals.map(function (v) {
+                return +v;
+            });
 
-        numBins = Math.max(3, Math.min(numBins, 9));
+            // get min and max
+            var e = _d2.default.extent(vals);
+            var min = e[0],
+                max = e[1];
 
-        var colors = colorbrewer[tc.colorScheme][numBins];
+            var colors = tc.interpolate || [_colorbrewer2.default[tc.colorScheme][3][0], _colorbrewer2.default[tc.colorScheme][3][2]];
 
-        var scale = d3.scale
-            .threshold()
-            .domain(breaks)
-            .range(colors);
+            if (tc.middleValue != undefined && colors.length == 2 || colors.length == 3 && tc.middleValue == undefined) throw Error('For 3-way interpolation, must include middle value attributes to add between min and max.');
 
-        var grades = scale.range().map(grade => 
-            scale.invertExtent(grade).join('-')
-        );
+            // preparing for 3-way interpolation
+            e = tc.middleValue != undefined ? [e[0], tc.middleValue, e[1]] : e;
 
-        this.legendParams  = {
-            grades: grades,
-            colors: colors
-        };
+            var scale = _d2.default.scale.linear().domain(e).range(colors);
 
-        return scale;
-    }
+            // build some intervals in the interpolation range for
+            // use in the legend
+            var legendDomain = _lodash2.default.range(min, max, (max - min) / 5.0);
+            legendDomain.push(max); // push the max too
 
-    _jenks (tc, vals) {
+            this.legendParams = {
+                grades: legendDomain,
+                colors: legendDomain.map(function (a) {
+                    return scale(a);
+                })
+            };
 
-        // force to float
-        vals = vals.map((v) => +v);
+            return scale;
+        }
+    }, {
+        key: '_manual',
+        value: function _manual(tc) {
 
-        var breaks = ss.ckmeans(vals, tc.numBins);
+            var breaks = tc.breaks,
+                numBins = breaks.length + 1;
 
-        breaks = breaks.map((vals) => vals[0]).splice(1);
+            numBins = Math.max(3, Math.min(numBins, 9));
 
-        return this._manual(_.extend({}, tc, {
-            breaks: breaks,
-            numBins: breaks.length + 1
-        }), vals);
-    }
+            var colors = _colorbrewer2.default[tc.colorScheme][numBins];
 
-    _quantile (tc, vals) {
+            var scale = _d2.default.scale.threshold().domain(breaks).range(colors);
 
-        // force to float
-        vals = vals.map((v) => +v);
+            var grades = scale.range().map(function (grade) {
+                return scale.invertExtent(grade).join('-');
+            });
 
-        var colors = colorbrewer[tc.colorScheme][tc.numBins];
+            this.legendParams = {
+                grades: grades,
+                colors: colors
+            };
 
-        var scale = d3.scale
-            .quantile()
-            .domain(vals)
-            .range(colors);
+            return scale;
+        }
+    }, {
+        key: '_jenks',
+        value: function _jenks(tc, vals) {
 
-        var grades = scale.range().map(grade => 
-            scale.invertExtent(grade).join('-')
-        );
+            // force to float
+            vals = vals.map(function (v) {
+                return +v;
+            });
 
-        this.legendParams  = {
-            grades: grades,
-            colors: colors
-        };
+            var breaks = _simpleStatistics2.default.ckmeans(vals, tc.numBins);
 
-        return scale;
-    }
+            breaks = breaks.map(function (vals) {
+                return vals[0];
+            }).splice(1);
 
-    _categorical (tc) {
+            return this._manual(_lodash2.default.extend({}, tc, {
+                breaks: breaks,
+                numBins: breaks.length + 1
+            }), vals);
+        }
+    }, {
+        key: '_quantile',
+        value: function _quantile(tc, vals) {
 
-        var scale = function (v) {
-            return _.get(tc.categories, v, tc.defaultColor);
+            // force to float
+            vals = vals.map(function (v) {
+                return +v;
+            });
+
+            var colors = _colorbrewer2.default[tc.colorScheme][tc.numBins];
+
+            var scale = _d2.default.scale.quantile().domain(vals).range(colors);
+
+            var grades = scale.range().map(function (grade) {
+                return scale.invertExtent(grade).join('-');
+            });
+
+            this.legendParams = {
+                grades: grades,
+                colors: colors
+            };
+
+            return scale;
+        }
+    }, {
+        key: '_categorical',
+        value: function _categorical(tc) {
+
+            var scale = function scale(v) {
+                return _lodash2.default.get(tc.categories, v, tc.defaultColor);
+            };
+
+            var keys = tc.legendKeys || _lodash2.default.keys(tc.categories);
+
+            this.legendParams = {
+                grades: keys,
+                colors: keys.map(function (k) {
+                    return tc.categories[k];
+                })
+            };
+
+            return scale;
+        }
+    }, {
+        key: '_autocategorical',
+        value: function _autocategorical(tc, vals) {
+
+            var keys = _lodash2.default.uniq(vals);
+
+            var scale = _d2.default.scale.category20().domain(keys);
+
+            this.legendParams = {
+                grades: keys,
+                colors: keys.map(function (k) {
+                    return scale(k);
+                })
+            };
+
+            return scale;
         }
 
-        var keys = tc.legendKeys || _.keys(tc.categories);
+        // create theme object from a javascript config onject
+        // and a vector of data - the return object is useful to
+        // pass to getStyle below
 
-        this.legendParams = {
-            grades: keys,
-            colors: keys.map(k => tc.categories[k])
-        };
+    }]);
 
-        return scale;
-    }
+    function Theme(themeConfig, vals) {
+        _classCallCheck(this, Theme);
 
-    _autocategorical (tc, vals) {
-
-        var keys = _.uniq(vals);
-
-        var scale = d3
-            .scale
-            .category20()
-            .domain(keys);
-
-        this.legendParams = {
-            grades: keys,
-            colors: keys.map(k => scale(k))
-        };
-
-        return scale;
-    }
-
-    // create theme object from a javascript config onject
-    // and a vector of data - the return object is useful to
-    // pass to getStyle below
-
-    constructor (themeConfig, vals) {
-
-        const tc = themeConfig;
+        var tc = themeConfig;
 
         var scale;
 
-        if(tc.scaleType == 'linear') {
+        if (tc.scaleType == 'linear') {
 
             scale = this._linear(themeConfig, vals);
-
-        } else if(tc.scaleType == 'manual') {
+        } else if (tc.scaleType == 'manual') {
 
             scale = this._manual(themeConfig);
-
-        } else if(tc.scaleType == 'quantile') {
+        } else if (tc.scaleType == 'quantile') {
 
             scale = this._quantile(themeConfig, vals);
-
         } else if (tc.scaleType == 'categorical') {
 
             scale = this._categorical(themeConfig);
-
         } else if (tc.scaleType == 'autocategorical') {
 
             scale = this._autocategorical(themeConfig, vals);
-
-
         } else if (tc.scaleType == 'jenks') {
 
             scale = this._jenks(themeConfig, vals);
-
         } else {
 
             throw Error('Theme type not supported');
@@ -186,35 +210,44 @@ export class Theme {
         this.scale = scale;
     }
 
-    getLegendParams () {
-        return _.extend({}, this.legendParams, {
-            heading: this.theme.legendName,
-            dontFormatLegend: this.theme.dontFormatLegend
-        });
-    }
-
-    // for use e.g. with setting radius on a circle
-    getScaledVal (v) {
-        return this.scale(v);
-    }
-
-    getStyle (v) {
-
-        var tc = this.theme;
-        var scale = this.scale;
-
-        function isNan (v) {
-            return v == undefined || Number.isNaN(v) || !scale(v) || v == tc.setToNan;
+    _createClass(Theme, [{
+        key: 'getLegendParams',
+        value: function getLegendParams() {
+            return _lodash2.default.extend({}, this.legendParams, {
+                heading: this.theme.legendName,
+                dontFormatLegend: this.theme.dontFormatLegend
+            });
         }
 
-        // style object to return at the end
-        var style = {
-            weight: tc.weight,
-            fillColor: scale(v),
-            fillOpacity: isNan(v) ? 0 : tc.opacity,
-            color: tc.outlineColor
-        };
+        // for use e.g. with setting radius on a circle
 
-        return style;
-    }
-}
+    }, {
+        key: 'getScaledVal',
+        value: function getScaledVal(v) {
+            return this.scale(v);
+        }
+    }, {
+        key: 'getStyle',
+        value: function getStyle(v) {
+
+            var tc = this.theme;
+            var scale = this.scale;
+
+            function isNan(v) {
+                return v == undefined || Number.isNaN(v) || !scale(v) || v == tc.setToNan;
+            }
+
+            // style object to return at the end
+            var style = {
+                weight: tc.weight,
+                fillColor: scale(v),
+                fillOpacity: isNan(v) ? 0 : tc.opacity,
+                color: tc.outlineColor
+            };
+
+            return style;
+        }
+    }]);
+
+    return Theme;
+}();
