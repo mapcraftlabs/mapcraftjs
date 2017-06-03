@@ -128,6 +128,8 @@ export class Theme {
     _autocategorical (tc, vals) {
 
         var keys = _.uniq(vals);
+	// drop empties
+        keys = _.without(keys, undefined, null, '');
 
         var scale = d3
             .scale
