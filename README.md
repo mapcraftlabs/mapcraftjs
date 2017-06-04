@@ -1,7 +1,7 @@
 # mapcraftjs
 
 [![travis build](https://img.shields.io/travis/mapcraftlabs/mapcraftjs.svg?style=flat-square)](https://travis-ci.org/mapcraftlabs/mapcraftjs)
-[![codecov coverage](https://img.shields.io/codecov/c/github/mapcraftlabs/planning-tools.svg?style=flat-square)](https://codecov.io/github/mapcraftlabs/mapcraftjs)
+[![codecov coverage](https://img.shields.io/codecov/c/github/mapcraftlabs/mapcraftjs.svg?style=flat-square)](https://codecov.io/github/mapcraftlabs/mapcraftjs)
 
 ## Themes
 
