@@ -157,6 +157,8 @@ var Theme = exports.Theme = function () {
         value: function _autocategorical(tc, vals) {
 
             var keys = _lodash2.default.uniq(vals);
+            // drop empties
+            keys = _lodash2.default.without(keys, undefined, null, '');
 
             var scale = _d2.default.scale.category20().domain(keys);
 
