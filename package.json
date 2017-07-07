@@ -1,6 +1,6 @@
 {
   "name": "mapcraftjs",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Web components and modules for mapping (React + Leaflet)",
   "main": "dist/index.js",
   "scripts": {
