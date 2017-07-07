@@ -27,6 +27,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var hashStr = function hashStr(str, mod) {
+    var hash = 0,
+        i = void 0,
+        chr = void 0;
+    if (str.length === 0) return hash;
+    for (i = 0; i < str.length; i++) {
+        chr = str.charCodeAt(i);
+        hash = (hash << 5) - hash + chr;
+        hash |= 0; // Convert to 32bit integer
+    }
+    return hash % mod;
+};
+
 var Theme = exports.Theme = function () {
     _createClass(Theme, [{
         key: '_linear',
@@ -160,7 +173,15 @@ var Theme = exports.Theme = function () {
             // drop empties
             keys = _lodash2.default.without(keys, undefined, null, '');
 
-            var scale = _d2.default.scale.category20().domain(keys);
+            var colors = _d2.default.scale.category20().domain(_lodash2.default.range(20));
+
+            // this gives a stable mapping of strings to one of the 20 colors
+            // the string xyzABC will always map to the same color no matter which
+            // other categories exist, which is useful for many cases.  there can
+            // be collisions now, even for fewer than 20 unique values
+            var scale = function scale(val) {
+                return colors(hashStr(val, 20));
+            };
 
             this.legendParams = {
                 grades: keys,

@@ -3,6 +3,17 @@ import _ from 'lodash';
 import colorbrewer from 'colorbrewer';
 import ss from 'simple-statistics';
 
+const hashStr = (str, mod) => {
+  let hash = 0, i, chr;
+  if (str.length === 0) return hash;
+  for (i = 0; i < str.length; i++) {
+    chr   = str.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash % mod;
+};
+
 
 export class Theme {
 
@@ -128,13 +139,19 @@ export class Theme {
     _autocategorical (tc, vals) {
 
         var keys = _.uniq(vals);
-	// drop empties
+        // drop empties
         keys = _.without(keys, undefined, null, '');
 
-        var scale = d3
+        const colors = d3
             .scale
             .category20()
-            .domain(keys);
+            .domain(_.range(20));
+
+        // this gives a stable mapping of strings to one of the 20 colors
+        // the string xyzABC will always map to the same color no matter which
+        // other categories exist, which is useful for many cases.  there can
+        // be collisions now, even for fewer than 20 unique values
+        const scale = val => colors(hashStr(val, 20));
 
         this.legendParams = {
             grades: keys,

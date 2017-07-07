@@ -232,8 +232,8 @@ describe('theme module', () => {
             scaleType: 'autocategorical'
         }), values);
 
-        expect(theme.getStyle('dog').fillColor).to.equal('#1f77b4');
-        expect(theme.getStyle('cat').fillColor).to.equal('#aec7e8');
+        expect(theme.getStyle('dog').fillColor).to.equal('#2ca02c');
+        expect(theme.getStyle('cat').fillColor).to.equal('#ff7f0e');
 
         expect(theme.legendParams).to.deep.equal({
             grades: [
@@ -241,9 +241,9 @@ describe('theme module', () => {
                 'cat',
                 'antelope'
             ], colors: [
-                '#1f77b4',
-                '#aec7e8',
-                '#ff7f0e'
+                '#2ca02c',
+                '#ff7f0e',
+                '#1f77b4'
             ]
         });
     });
